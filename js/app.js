@@ -12,7 +12,7 @@ function payNow() {
     };
 
     console.log("Mini App Start Payment");
-    // console.log("paymentData:", JSON.stringify(paymentData, null, 2));
+    console.log("paymentData:", JSON.stringify(paymentData, null, 2));
 
     showLoading(true);
 

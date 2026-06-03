@@ -23,8 +23,8 @@ window.JBright = {
             // Send paymentData to native iOS via WKWebView bridge
             if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.jbright) {
                 window.webkit.messageHandlers.jbright.postMessage({
-                    action: action,
-                    data: data
+                    action: method,
+                    data: payload
                 });
             }
 

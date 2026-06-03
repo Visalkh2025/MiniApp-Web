@@ -1,0 +1,987 @@
+/* =========================================================
+   MINI APP - CAFE STYLE UI
+   ========================================================= */
+
+   @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+
+   * {
+       box-sizing: border-box;
+       -webkit-tap-highlight-color: transparent;
+   }
+   
+   
+   :root {
+   
+       --bg-color: #f5f7fb;
+       --card-color: #ffffff;
+   
+       --text-color: #111111;
+       --sub-text: #7b8190;
+   
+       --border-color: #eceef3;
+   
+       --primary-color: #111111;
+       --primary-text: #ffffff;
+   
+       --secondary-bg: #f1f4f9;
+       --secondary-text: #111111;
+   
+       --success-color: #16c47f;
+       --warning-color: #ff9f0a;
+       --error-color: #ff453a;
+   
+       --shadow:
+           0 10px 30px rgba(0,0,0,0.06);
+   
+   }
+   
+   
+   
+   /* =========================================================
+      DARK MODE
+      ========================================================= */
+   
+   @media (prefers-color-scheme: dark) {
+   
+       :root {
+   
+           --bg-color: #0f1115;
+           --card-color: #171a21;
+   
+           --text-color: #ffffff;
+           --sub-text: #9ca3af;
+   
+           --border-color: #262b35;
+   
+           --primary-color: #ffffff;
+           --primary-text: #000000;
+   
+           --secondary-bg: #242935;
+           --secondary-text: #ffffff;
+   
+           --shadow:
+               0 10px 30px rgba(0,0,0,0.35);
+   
+       }
+   
+   }
+   
+   
+   
+   /* =========================================================
+      BASE
+      ========================================================= */
+   
+   html,
+   body {
+   
+       margin: 0;
+       padding: 0;
+   
+       min-height: 100%;
+   
+       background: var(--bg-color);
+       color: var(--text-color);
+   
+       font-family:
+           "Plus Jakarta Sans",
+           -apple-system,
+           BlinkMacSystemFont,
+           sans-serif;
+   
+       text-rendering: optimizeLegibility;
+       -webkit-font-smoothing: antialiased;
+   
+   }
+   
+   
+   body {
+   
+       padding-top: env(safe-area-inset-top);
+       padding-bottom: env(safe-area-inset-bottom);
+   
+   }
+   
+   
+   
+   /* =========================================================
+      LAYOUT
+      ========================================================= */
+   
+   .container {
+   
+       width: 100%;
+       max-width: 430px;
+   
+       margin: auto;
+   
+       padding:
+           20px
+           16px
+           32px;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      HEADER
+      ========================================================= */
+   
+   .app-header {
+   
+       display: flex;
+   
+       justify-content: space-between;
+       align-items: center;
+   
+       margin-bottom: 22px;
+   
+   }
+   
+   .app-header h1 {
+   
+       margin: 0;
+   
+       font-size: 30px;
+       font-weight: 800;
+   
+       letter-spacing: -1px;
+   
+   }
+   
+   .app-header p {
+   
+       margin-top: 6px;
+   
+       color: var(--sub-text);
+   
+       font-size: 14px;
+   
+   }
+   
+   .app-badge {
+   
+       background: var(--primary-color);
+       color: var(--primary-text);
+   
+       padding:
+           8px
+           14px;
+   
+       border-radius: 999px;
+   
+       font-size: 12px;
+       font-weight: 700;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      CARD
+      ========================================================= */
+   
+   .receipt-card,
+   .permission-section,
+   .permission-card,
+   .success-card {
+   
+       background: var(--card-color);
+   
+       border-radius: 30px;
+   
+       padding: 22px;
+   
+       box-shadow: var(--shadow);
+   
+   }
+   
+   
+   
+   /* =========================================================
+      RECEIPT
+      ========================================================= */
+   
+   .receipt-top {
+   
+       display: flex;
+   
+       justify-content: space-between;
+       align-items: center;
+   
+       margin-bottom: 26px;
+   
+   }
+   
+   .receipt-top h2 {
+   
+       margin: 0;
+   
+       font-size: 24px;
+       font-weight: 700;
+   
+       letter-spacing: -0.8px;
+   
+   }
+   
+   .receipt-top span {
+   
+       color: var(--sub-text);
+   
+       font-size: 13px;
+   
+   }
+   
+   .receipt-status {
+   
+       background:
+           rgba(255,159,10,0.12);
+   
+       color: var(--warning-color);
+   
+       padding:
+           8px
+           14px;
+   
+       border-radius: 999px;
+   
+       font-size: 12px;
+       font-weight: 700;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      ITEM
+      ========================================================= */
+   
+   .item {
+   
+       display: flex;
+   
+       justify-content: space-between;
+       align-items: center;
+   
+       margin: 18px 0;
+   
+       font-size: 16px;
+   
+   }
+   
+   .total {
+   
+       font-size: 24px;
+       font-weight: 800;
+   
+   }
+   
+   .divider {
+   
+       height: 1px;
+   
+       background: var(--border-color);
+   
+       margin: 20px 0;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      BUTTON
+      ========================================================= */
+   
+   button {
+   
+       width: 100%;
+   
+       border: none;
+   
+       border-radius: 18px;
+   
+       padding: 16px;
+   
+       font-size: 16px;
+       font-weight: 700;
+   
+       cursor: pointer;
+   
+       transition: 0.2s;
+   
+       font-family:
+           "Plus Jakarta Sans",
+           sans-serif;
+   
+   }
+   
+   button:active {
+   
+       transform: scale(0.98);
+   
+   }
+   
+   .pay-btn {
+   
+       margin-top: 22px;
+   
+       background: var(--primary-color);
+       color: var(--primary-text);
+   
+   }
+   
+   .secondary-btn {
+   
+       background: var(--secondary-bg);
+       color: var(--secondary-text);
+   
+   }
+   
+   
+   
+   /* =========================================================
+      PERMISSION
+      ========================================================= */
+   
+   .permission-section {
+   
+       margin-top: 20px;
+   
+   }
+   
+   .permission-top {
+   
+       display: flex;
+   
+       justify-content: space-between;
+       align-items: center;
+   
+       margin-bottom: 20px;
+   
+   }
+   
+   .permission-top h3 {
+   
+       margin: 0;
+   
+       font-size: 20px;
+   
+   }
+   
+   .permission-top p {
+   
+       margin-top: 6px;
+   
+       color: var(--sub-text);
+   
+       font-size: 14px;
+       line-height: 1.5;
+   
+   }
+   
+   .permission-icon {
+   
+       width: 54px;
+       height: 54px;
+   
+       background: var(--secondary-bg);
+   
+       border-radius: 18px;
+   
+       display: flex;
+   
+       justify-content: center;
+       align-items: center;
+   
+       font-size: 24px;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      SUCCESS SCREEN
+      ========================================================= */
+   
+   .success-container {
+   
+       min-height: 100vh;
+   
+       display: flex;
+   
+       justify-content: center;
+       align-items: center;
+   
+       padding: 20px 16px;
+   
+   }
+   
+   .success-card {
+   
+       width: 100%;
+       max-width: 430px;
+   
+       text-align: center;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      STATUS ICON
+      ========================================================= */
+   
+   .status-icon {
+   
+       width: 94px;
+       height: 94px;
+   
+       border-radius: 50%;
+   
+       background: var(--success-color);
+   
+       color: #ffffff;
+   
+       display: flex;
+   
+       justify-content: center;
+       align-items: center;
+   
+       margin:
+           auto
+           auto
+           20px;
+   
+       font-size: 42px;
+       font-weight: bold;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      STATUS BADGE
+      ========================================================= */
+   
+   .status-badge {
+   
+       display: inline-flex;
+   
+       justify-content: center;
+       align-items: center;
+   
+       padding:
+           8px
+           16px;
+   
+       border-radius: 999px;
+   
+       font-size: 12px;
+       font-weight: 800;
+   
+       margin-bottom: 14px;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      SUCCESS TEXT
+      ========================================================= */
+   
+   .success-card h1 {
+   
+       margin: 0;
+   
+       font-size: 30px;
+       font-weight: 800;
+   
+       line-height: 1.2;
+   
+       letter-spacing: -1px;
+   
+   }
+   
+   .success-card p {
+   
+       margin-top: 12px;
+   
+       color: var(--sub-text);
+   
+       font-size: 15px;
+   
+       line-height: 1.6;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      AMOUNT
+      ========================================================= */
+   
+   .amount-section {
+   
+       margin-top: 28px;
+       margin-bottom: 28px;
+   
+       text-align: center;
+   
+   }
+   
+   .amount-label {
+   
+       color: var(--sub-text);
+   
+       font-size: 14px;
+   
+   }
+   
+   .amount-value {
+   
+       margin-top: 8px;
+   
+       font-size: 42px;
+       font-weight: 800;
+   
+       letter-spacing: -2px;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      TRANSACTION BOX
+      ========================================================= */
+   
+   .transaction-box {
+   
+       margin-top: 20px;
+   
+       background:
+           rgba(127,127,127,0.06);
+   
+       border-radius: 22px;
+   
+       padding: 18px;
+   
+       text-align: left;
+   
+   }
+   
+   .receipt-line {
+   
+       display: flex;
+   
+       justify-content: space-between;
+       align-items: flex-start;
+   
+       gap: 12px;
+   
+       padding: 14px 0;
+   
+       border-bottom:
+           1px solid var(--border-color);
+   
+       font-size: 15px;
+   
+   }
+   
+   .receipt-line:last-child {
+   
+       border-bottom: none;
+       padding-bottom: 0;
+   
+   }
+   
+   .receipt-line span:last-child {
+   
+       text-align: right;
+   
+       word-break: break-word;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      STATUS TEXT
+      ========================================================= */
+   
+   .status-text {
+   
+       font-weight: 700;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      PENDING NOTE
+      ========================================================= */
+   
+   .pending-note {
+   
+       margin-top: 20px;
+   
+       padding: 16px;
+   
+       border-radius: 18px;
+   
+       background:
+           rgba(255,159,10,0.12);
+   
+       color: var(--warning-color);
+   
+       font-size: 14px;
+   
+       line-height: 1.5;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      ACTION
+      ========================================================= */
+   
+   .action-group {
+   
+       margin-top: 24px;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      LOADING
+      ========================================================= */
+   
+   .loading-overlay {
+   
+       position: fixed;
+   
+       inset: 0;
+   
+       background:
+           rgba(0,0,0,0.45);
+   
+       display: none;
+   
+       justify-content: center;
+       align-items: center;
+   
+       z-index: 999;
+   
+       padding: 20px;
+   
+       backdrop-filter: blur(4px);
+   
+   }
+   
+   .loading-card {
+   
+       width: 100%;
+       max-width: 320px;
+   
+       background: var(--card-color);
+   
+       border-radius: 28px;
+   
+       padding:
+           32px
+           24px;
+   
+       text-align: center;
+   
+   }
+   
+   .loading-card h2 {
+   
+       margin-top: 18px;
+       margin-bottom: 10px;
+   
+   }
+   
+   .loading-card p {
+   
+       color: var(--sub-text);
+   
+       font-size: 14px;
+   
+       line-height: 1.5;
+   
+   }
+   
+   
+   
+   /* =========================================================
+      LOADER
+      ========================================================= */
+   
+   .loader {
+   
+       width: 54px;
+       height: 54px;
+   
+       border:
+           5px solid rgba(127,127,127,0.15);
+   
+       border-top:
+           5px solid var(--text-color);
+   
+       border-radius: 50%;
+   
+       animation:
+           spin 1s linear infinite;
+   
+       margin: auto;
+   
+   }
+   
+   @keyframes spin {
+   
+       0% {
+           transform: rotate(0deg);
+       }
+   
+       100% {
+           transform: rotate(360deg);
+       }
+   
+   }
+   
+   
+   
+   /* =========================================================
+      MOBILE
+      ========================================================= */
+   
+   @media (max-width: 390px) {
+   
+       .container {
+   
+           padding: 14px;
+   
+       }
+   
+       .receipt-card,
+       .permission-section,
+       .permission-card,
+       .success-card {
+   
+           padding: 18px;
+   
+           border-radius: 24px;
+   
+       }
+   
+       .app-header h1,
+       .success-card h1 {
+   
+           font-size: 24px;
+   
+       }
+   
+       .receipt-top h2 {
+   
+           font-size: 20px;
+   
+       }
+   
+       .amount-value {
+   
+           font-size: 34px;
+   
+       }
+   
+       button {
+   
+           font-size: 15px;
+   
+       }
+   
+   }
+
+   /* =========================================================
+   PERMISSION PAGE
+   ========================================================= */
+
+.permission-card {
+
+    background: var(--card-color);
+
+    border-radius: 30px;
+
+    padding: 22px;
+
+    box-shadow: var(--shadow);
+
+}
+
+
+.permission-hero {
+
+    text-align: center;
+
+    margin-bottom: 26px;
+
+}
+
+.permission-hero-icon {
+
+    width: 76px;
+    height: 76px;
+
+    margin: auto auto 18px;
+
+    border-radius: 24px;
+
+    background: var(--secondary-bg);
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: 34px;
+
+}
+
+.permission-hero h2 {
+
+    margin: 0;
+
+    font-size: 28px;
+    font-weight: 800;
+
+    letter-spacing: -1px;
+
+}
+
+.permission-hero p {
+
+    margin-top: 10px;
+
+    color: var(--sub-text);
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+}
+
+
+
+/* Permission List */
+
+.permission-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+}
+
+
+
+/* Permission Item */
+
+.permission-item {
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px;
+
+    border-radius: 22px;
+
+    background:
+        rgba(127,127,127,0.05);
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+.permission-item:active {
+
+    transform: scale(0.98);
+
+}
+
+.permission-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+}
+
+
+
+/* Icon Circle */
+
+.permission-circle {
+
+    width: 54px;
+    height: 54px;
+
+    border-radius: 18px;
+
+    background: var(--secondary-bg);
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: 24px;
+
+}
+
+
+
+/* Permission Text */
+
+.permission-item h3 {
+
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 700;
+
+}
+
+.permission-item span {
+
+    display: block;
+
+    margin-top: 4px;
+
+    color: var(--sub-text);
+
+    font-size: 13px;
+
+}
+
+
+
+/* Arrow */
+
+.permission-arrow {
+
+    font-size: 20px;
+
+    color: var(--sub-text);
+
+}

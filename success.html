@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Result</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="success-container">
+
+    <div class="success-card">
+
+
+        <!-- Status Icon -->
+
+        <div
+            id="statusIcon"
+            class="status-icon">
+
+            ✓
+
+        </div>
+
+
+
+        <!-- Status Badge -->
+
+        <div
+            id="statusBadge"
+            class="status-badge">
+
+            PAYMENT SUCCESS
+
+        </div>
+
+
+
+        <!-- Title -->
+
+        <h1
+            id="statusTitle">
+
+            Payment Successful
+
+        </h1>
+
+
+
+        <!-- Message -->
+
+        <p
+            id="statusMessage">
+
+            Your payment has been completed successfully.
+
+        </p>
+
+
+
+        <!-- Amount -->
+
+        <div class="amount-section">
+
+            <div class="amount-label">
+
+                Total Amount
+
+            </div>
+
+            <div
+                id="transactionAmount"
+                class="amount-value">
+
+                $0.00
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Receipt -->
+
+        <div
+            id="transactionBox"
+            class="transaction-box">
+
+
+            <div class="receipt-line">
+
+                <span>
+                    Merchant
+                </span>
+
+                <span>
+                    Mini Cafe
+                </span>
+
+            </div>
+
+
+            <div class="receipt-line">
+
+                <span>
+                    Transaction ID
+                </span>
+
+                <span
+                    id="transactionId">
+
+                    -
+
+                </span>
+
+            </div>
+
+
+            <div class="receipt-line">
+
+                <span>
+                    Payment Method
+                </span>
+
+                <span>
+                    Mobile Banking
+                </span>
+
+            </div>
+
+
+            <div class="receipt-line">
+
+                <span>
+                    Status
+                </span>
+
+                <span
+                    id="transactionStatus"
+                    class="status-text">
+
+                    SUCCESS
+
+                </span>
+
+            </div>
+
+
+            <div class="receipt-line">
+
+                <span>
+                    Date & Time
+                </span>
+
+                <span
+                    id="transactionDate">
+
+                    -
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Pending Note -->
+
+        <div
+            id="pendingNote"
+            class="pending-note">
+
+            Your payment is currently being processed.
+            Please wait for bank confirmation.
+
+        </div>
+
+
+
+        <!-- Actions -->
+
+        <div class="action-group">
+
+            <button onclick="goHome()">
+
+                Back Home
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+const paymentResult =
+    JSON.parse(
+        localStorage.getItem(
+            "paymentResult"
+        )
+    );
+
+const statusTitle =
+    document.getElementById(
+        "statusTitle"
+    );
+
+const statusMessage =
+    document.getElementById(
+        "statusMessage"
+    );
+
+const statusIcon =
+    document.getElementById(
+        "statusIcon"
+    );
+
+const statusBadge =
+    document.getElementById(
+        "statusBadge"
+    );
+
+const transactionId =
+    document.getElementById(
+        "transactionId"
+    );
+
+const transactionAmount =
+    document.getElementById(
+        "transactionAmount"
+    );
+
+const transactionStatus =
+    document.getElementById(
+        "transactionStatus"
+    );
+
+const transactionDate =
+    document.getElementById(
+        "transactionDate"
+    );
+
+const transactionBox =
+    document.getElementById(
+        "transactionBox"
+    );
+
+const pendingNote =
+    document.getElementById(
+        "pendingNote"
+    );
+
+
+
+if (paymentResult) {
+
+
+    transactionDate.innerHTML =
+        new Date().toLocaleString();
+
+
+
+    // SUCCESS
+    if (
+        paymentResult.status === "success"
+    ) {
+
+        statusTitle.innerHTML =
+            "Payment Successful";
+
+        statusMessage.innerHTML =
+            paymentResult.message ||
+            "Your payment has been completed successfully.";
+
+        statusBadge.innerHTML =
+            "SUCCESS";
+
+        statusIcon.innerHTML =
+            "✓";
+
+        statusIcon.style.background =
+            "#00c853";
+
+        statusBadge.style.background =
+            "#e8fff0";
+
+        statusBadge.style.color =
+            "#00a63e";
+
+        transactionId.innerHTML =
+            paymentResult.transactionId ||
+            "-";
+
+        transactionAmount.innerHTML =
+            paymentResult.amount +
+            " " +
+            paymentResult.currency;
+
+        transactionStatus.innerHTML =
+            "SUCCESS";
+
+        transactionStatus.style.color =
+            "#00a63e";
+
+        pendingNote.style.display =
+            "none";
+
+    }
+
+
+
+    // PENDING
+    else if (
+        paymentResult.status === "pending"
+    ) {
+
+        statusTitle.innerHTML =
+            "Transaction Pending";
+
+        statusMessage.innerHTML =
+            paymentResult.message ||
+            "Waiting for bank confirmation.";
+
+        statusBadge.innerHTML =
+            "PENDING";
+
+        statusIcon.innerHTML =
+            "⏳";
+
+        transactionId.innerHTML =
+            paymentResult.transactionId ||
+            "-";
+
+        transactionAmount.innerHTML =
+            paymentResult.amount +
+            " " +
+            paymentResult.currency;
+
+        statusIcon.style.background =
+            "#ff9800";
+
+        statusBadge.style.background =
+            "#fff5e8";
+
+        statusBadge.style.color =
+            "#ff9800";
+
+        transactionBox.style.display =
+            "none";
+
+        pendingNote.style.display =
+            "block";
+
+    }
+
+
+
+    // FAILED
+    else {
+
+        statusTitle.innerHTML =
+            "Payment Failed";
+
+        statusMessage.innerHTML =
+            paymentResult.message ||
+            "Unable to complete payment.";
+
+        statusBadge.innerHTML =
+            "FAILED";
+
+        statusIcon.innerHTML =
+            "✕";
+
+        statusIcon.style.background =
+            "#ff3b30";
+
+        statusBadge.style.background =
+            "#ffecec";
+
+        statusBadge.style.color =
+            "#ff3b30";
+
+        transactionBox.style.display =
+            "none";
+
+        pendingNote.style.display =
+            "none";
+
+    }
+
+}
+
+
+
+// EMPTY STATE
+else {
+
+    statusTitle.innerHTML =
+        "No Transaction";
+
+    statusMessage.innerHTML =
+        "No payment information found.";
+
+    statusBadge.innerHTML =
+        "EMPTY";
+
+    statusIcon.innerHTML =
+        "!";
+
+    statusIcon.style.background =
+        "#999";
+
+    transactionBox.style.display =
+        "none";
+
+    pendingNote.style.display =
+        "none";
+
+}
+
+
+
+function goHome() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+</script>
+
+</body>
+</html>

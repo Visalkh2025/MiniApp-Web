@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>Donate via KHQR</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:24px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #F8FAFC 0%,
+            #EEF3F8 100%
+        );
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Segoe UI",
+        sans-serif;
+}
+
+.card{
+    width:100%;
+    max-width:460px;
+
+    background:#FFF;
+
+    border-radius:32px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.08);
+}
+
+.header{
+    background:
+        linear-gradient(
+            180deg,
+            #1B3351 0%,
+            #24466F 100%
+        );
+
+    padding:52px 24px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.logo{
+    width:280px;
+    max-width:100%;
+    height:auto;
+}
+
+.content{
+    padding:32px;
+    text-align:center;
+}
+
+.title{
+    font-size:30px;
+    font-weight:700;
+    color:#111827;
+    margin-bottom:12px;
+}
+
+.description{
+    color:#6B7280;
+    font-size:15px;
+    line-height:1.7;
+    max-width:320px;
+    margin:auto;
+}
+
+.qr{
+    width:100%;
+    max-width:320px;
+
+    margin:28px auto;
+
+    display:block;
+
+    background:white;
+
+    padding:10px;
+
+    border-radius:24px;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.10);
+}
+
+.button{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    width:100%;
+
+    height:58px;
+
+    border-radius:18px;
+
+    text-decoration:none;
+
+    font-size:16px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+.primary{
+    background:#1B3351;
+    color:white;
+}
+
+.primary:hover{
+    opacity:.95;
+}
+
+.tip{
+    margin-top:18px;
+
+    padding:16px;
+
+    border-radius:16px;
+
+    background:#F8FAFC;
+
+    border:1px solid #E5E7EB;
+
+    text-align:left;
+
+    font-size:14px;
+
+    color:#6B7280;
+
+    line-height:1.7;
+}
+
+.tip strong{
+    color:#111827;
+}
+
+.hidden{
+    display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="header">
+        <img
+            class="logo"
+            src="https://www.acledabank.com.kh/kh/assets/layout/logo3.png"
+            alt="ACLEDA">
+    </div>
+
+    <div class="content">
+
+        <div class="title">
+            Donate via KHQR
+        </div>
+
+        <div class="description">
+            Scan the KHQR using any KHQR-supported banking application or continue directly with AC Super App.
+        </div>
+
+        <img
+            class="qr"
+            src="https://www.acledabank.com.kh/qr/toanchet-manual/FKC-QR-KHR.jpg"
+            alt="KHQR">
+
+        <a
+            id="openAppBtn"
+            class="button primary"
+            href="https://acledabank.com.kh/acleda?id=bill&billId=1095&comcode=KH0144">
+
+            Start Donation with AC Super App
+
+        </a>
+
+        <div
+            id="facebookTip"
+            class="tip hidden">
+
+            <strong>Facebook Browser Detected</strong>
+            <br><br>
+
+            Some Android devices may not open AC Super App directly from Facebook.
+
+            <br><br>
+
+            Tap the Facebook menu (⋮) and choose:
+
+            <br>
+            <strong>Open in Browser</strong>
+
+            <br><br>
+
+            Then tap the button again.
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const ua = navigator.userAgent || '';
+
+const isFacebook =
+    ua.includes('FBAN') ||
+    ua.includes('FBAV');
+
+const isAndroid =
+    /Android/i.test(ua);
+
+if(isFacebook && isAndroid){
+    document
+        .getElementById('facebookTip')
+        .classList
+        .remove('hidden');
+}
+
+/*
+ Optional auto-open attempt.
+ Facebook may ignore it.
+*/
+
+window.addEventListener('load', () => {
+
+    if(!isFacebook){
+
+        setTimeout(() => {
+
+            window.location.href =
+                'https://acledabank.com.kh/acleda?id=bill&billId=1095&comcode=KH0144';
+
+        }, 800);
+    }
+});
+
+</script>
+
+</body>
+</html>

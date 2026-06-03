@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Permissions</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+
+    <!-- Header -->
+
+    <div class="app-header">
+
+        <div>
+
+            <h1>
+                Permissions
+            </h1>
+
+            <p>
+                Manage device access securely
+            </p>
+
+        </div>
+
+        <div class="app-badge">
+            DEVICE
+        </div>
+
+    </div>
+
+
+
+    <!-- Permission Card -->
+
+    <div class="permission-card">
+
+
+        <!-- Top -->
+
+        <div class="permission-hero">
+
+            <div class="permission-hero-icon">
+                🔐
+            </div>
+
+            <h2>
+                Device Access
+            </h2>
+
+            <p>
+                Allow access to native device features
+                for a better mini app experience.
+            </p>
+
+        </div>
+
+
+
+        <!-- Permission Items -->
+
+        <div class="permission-list">
+
+
+            <!-- Camera -->
+
+            <div
+                class="permission-item"
+                onclick="requestCamera()">
+
+                <div class="permission-left">
+
+                    <div class="permission-circle">
+                        📷
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Camera
+                        </h3>
+
+                        <span>
+                            Scan QR & capture images
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="permission-arrow">
+                    →
+                </div>
+
+            </div>
+
+
+
+            <!-- Contacts -->
+
+            <div
+                class="permission-item"
+                onclick="requestContacts()">
+
+                <div class="permission-left">
+
+                    <div class="permission-circle">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Contacts
+                        </h3>
+
+                        <span>
+                            Select phone contacts
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="permission-arrow">
+                    →
+                </div>
+
+            </div>
+
+
+
+            <!-- Location -->
+
+            <div
+                class="permission-item"
+                onclick="requestLocation()">
+
+                <div class="permission-left">
+
+                    <div class="permission-circle">
+                        📍
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Location
+                        </h3>
+
+                        <span>
+                            Access current location
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="permission-arrow">
+                    →
+                </div>
+
+            </div>
+
+
+
+            <!-- Photos -->
+
+            <div
+                class="permission-item"
+                onclick="requestPhotos()">
+
+                <div class="permission-left">
+
+                    <div class="permission-circle">
+                        🖼️
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Photos & Files
+                        </h3>
+
+                        <span>
+                            Upload images & documents
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="permission-arrow">
+                    →
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Footer Button -->
+
+        <div class="action-group">
+
+            <button
+                class="secondary-btn"
+                onclick="goHome()">
+
+                Back Home
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="js/jbright.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

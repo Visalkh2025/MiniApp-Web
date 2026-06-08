@@ -39,7 +39,7 @@ function payNow() {
         window.location.href =
             "success.html";
 
-    }, 10000);
+    }, 3000);
 
 }
 

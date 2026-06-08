@@ -1,36 +1,26 @@
 window.JBright = {
-
     call: function(action, data, callback) {
-
-        console.log(
-            "JBright Action:",
-            action
-        );
-
-        console.log(
-            "Payload:",
-            data
-        );
-
-
-        // PAYMENT FLOW
-        if (action === "banking.payment.initiate") {
-
-            console.log(
-                "Open Native Banking App"
-            );
-
-            // Send paymentData to native iOS via WKWebView bridge
-            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.jbright) {
-                window.webkit.messageHandlers.jbright.postMessage({
-                    action: action,
-                    data: data
-                });
-            }
-
-            return;
-
+        
+        //  iOS WKWebView
+        if (window.webkit && 
+            window.webkit.messageHandlers && 
+            window.webkit.messageHandlers.jbright) {
+            window.webkit.messageHandlers.jbright.postMessage({
+                action: action,
+                data: data
+            })
+            return
         }
+        
+        //  Browser fallback — redirect paymentlink directly
+        if (action === "banking.payment.initiate" && data.paymentlink) {
+            window.location.href = data.paymentlink
+            return
+        }
+        
+        console.warn("JBright: bridge not found")
+    }
+}
 
 
         // PERMISSION FLOW

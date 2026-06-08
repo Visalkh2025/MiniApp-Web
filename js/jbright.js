@@ -1,7 +1,11 @@
 window.JBright = {
     call: function(action, data, callback) {
         
-        //  iOS WKWebView
+        console.log("action:", action)
+        console.log("data:", data)
+        console.log("data.paymentlink:", data?.paymentlink) // ← check នេះ
+        
+        // iOS WKWebView
         if (window.webkit && 
             window.webkit.messageHandlers && 
             window.webkit.messageHandlers.jbright) {
@@ -12,8 +16,9 @@ window.JBright = {
             return
         }
         
-        //  Browser fallback — redirect paymentlink directly
-        if (action === "banking.payment.initiate" && data.paymentlink) {
+        // Browser fallback
+        if (action === "banking.payment.initiate" && data && data.paymentlink) {
+            console.log("Redirecting to:", data.paymentlink)
             window.location.href = data.paymentlink
             return
         }

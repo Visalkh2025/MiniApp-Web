@@ -22,25 +22,16 @@ function payNow() {
     );
 
     paymentTimeout = setTimeout(() => {
-
-        showLoading(false);
-
-        localStorage.setItem(
-            "paymentResult",
-            JSON.stringify({
-                status: "pending",
-                transactionId: "TXN999888",
-                amount: 5.50,
-                currency: "USD",
-                message: "Waiting for bank confirmation"
-            })
-        );
-
-        window.location.href =
-            "success.html";
-
-    }, 3000);
-
+    showLoading(false)
+    localStorage.setItem('paymentResult', JSON.stringify({
+        status: 'pending',
+        transactionId: '-',
+        amount: 5.50,
+        currency: 'USD',
+        message: 'Waiting Bank Confirmation'
+    }))
+    window.location.href = 'https://visalkh2025.github.io/MiniApp-Web/success.html'
+}, 10000)
 }
 
 

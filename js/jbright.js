@@ -3,7 +3,7 @@ window.JBright = {
         
         console.log("action:", action)
         console.log("data:", data)
-        console.log("data.paymentlink:", data?.paymentlink) // ← check នេះ
+        console.log("data.paymentlink:", data?.paymentlink) 
         
         // iOS WKWebView
         if (window.webkit && 

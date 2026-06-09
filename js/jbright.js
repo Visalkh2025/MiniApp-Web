@@ -33,6 +33,14 @@ window.JBright = {
         
         console.warn("JBright: webkit not found")
     }
+
+    window.onNativeResult = function(action, result) {
+    console.log("Native result:", action, result)
+    const callbacks = window._jbrightCallbacks || {}
+    if (callbacks[action]) {
+        callbacks[action](result)
+        delete callbacks[action]
+    }
 }
     // Build deeplink for banking app
     buildPaymentDeeplink: function(paymentData) {

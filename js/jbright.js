@@ -1,33 +1,39 @@
 window.JBright = {
     call: function(action, data, callback) {
-        
-        console.log("action:", action)
-        console.log("data:", data)
-        console.log("data.paymentlink:", data?.paymentlink) 
-        
-        // PAYMENT FLOW
-        if (action === "banking.payment.initiate") {
-
-            console.log("Opening Banking App");
-
-            // Use paymentlink from data if provided
-            if (data && data.paymentlink) {
-                console.log("Navigating to deeplink:", data.paymentlink);
-                window.location.href = data.paymentlink;
-                return;
+        console.log("JBright action:", action)
+    
+        if (window.webkit && 
+            window.webkit.messageHandlers && 
+            window.webkit.messageHandlers.jbright) {
+            console.log("Sending to Swift:", action)
+            window.webkit.messageHandlers.jbright.postMessage({
+                action: action,
+                data: data || {},
+                callback: callback ? true : false
+            })
+            // Store callback
+            if (callback) {
+                window._jbrightCallbacks = window._jbrightCallbacks || {}
+                window._jbrightCallbacks[action] = callback
             }
-
-            // Otherwise, build deeplink from payment data
-            const deeplink = this.buildPaymentDeeplink(data);
-            console.log("Generated deeplink:", deeplink);
-            window.location.href = deeplink;
-
-            return;
+            return
         }
         
-        console.warn("JBright: action not handled");
-    },
-
+        // Browser fallback — payment only
+        if (action === "banking.payment.initiate" && data && data.paymentlink) {
+            console.log("Browser: redirect to paymentlink")
+            window.location.href = data.paymentlink
+            return
+        }
+        
+        // Browser fallback — permission mock
+        setTimeout(() => {
+            if (callback) callback({ success: true, granted: true })
+        }, 500)
+        
+        console.warn("JBright: webkit not found")
+    }
+}
     // Build deeplink for banking app
     buildPaymentDeeplink: function(paymentData) {
 

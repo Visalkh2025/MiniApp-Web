@@ -9,31 +9,38 @@ function payNow() {
         currency: "USD",
         orderId: "ORDER001",
         description: "Cafe Payment",
-        paymentlink: "https://epaymentuat.acledabank.com.kh/acleda?partner_id=KOFI&payment_data=S6+ByBsYikp+HlKo1KvvNEKSds3yyQeu9SewRKG3F4f5LpAZ6C985acledabankSecurityTCgUACHayDOd7PeZTPUacledabankSecurityTCdjNqdCXr0qqacledabankSecurityTCF8EyBgUQqC56u1U9HbTB0x10LkB9aZmxxqO8S64f1NQ+0JBFlNuSf1P1udx8sVreoZyhJX5BoxzrBDI2VsDqjl4wgDkvhpUZy8xt8NSWszgKSKGl6BKB2acledabankSecurityTCASbLNR++nJUKsh01cKMNvaMYkzVMWeQymWxbnWzPNTL1Wbqk08T2UA63qCpq7L3ZaDQkqSU8FFdCPD4G9d2hU0aL6jE9KK+L31C3fHOhq+9wkNck3bdCaeJcO4UG08wHXDR19jFtZW4bYXweilEjFqpxdacledabankSecurityTC4KoLVWNtTmHvB6z4tY+OImxc3bUzsUOjzZs8PFm2G8LhJOH6f3MLuAS+OxABUvfCacledabankSecurityTCuhEm0iaGWFR3B4OzChPs+wfacledabankSecurityTC1An6TO195m1D93JacledabankSecurityTC8y43vE4w3oavKgvEhBvAaYPqMbqqacledabankSecurityTCOYuacledabankSecurityTC5JjfYtpTPbACJb2yfxZcc852EtJGmu1HvNM9OaZqI0lHHOrlkpy+uMK2sukV1G8m6dEzNm78WmBYzvTacledabankSecurityTCV+xlkJ30ddZ+TAdJYPyL7iYrmAaLi23A0TfT3mci6GK7PONzmm1S+nxO8sj6Irvv1bn127asiLgJJzD++cBam3Sg=="
+        paymentlink: "https://epaymentuat.acledabank.com.kh/acleda?partner_id=KOFI&payment_data=S6+ByBsYikp+HlKo1KvvNEKSds3yyQeu9SewRKG3F4f5LpAZ6C985acledabankSecurityTCgUACHayDOd7PeZTPUacledabank[...]"
     };
     
-    console.log("Mini App Start Payment");
+    console.log("=== Mini App Start Payment ===");
     console.log("paymentData:", JSON.stringify(paymentData, null, 2));
 
     showLoading(true);
 
-    // Navigate to deeplink
-    JBright.call(
-        "banking.payment.initiate",
-        paymentData
-    );
+    // Navigate to deeplink via JBright
+    if (window.JBright) {
+        console.log("JBright is available");
+        JBright.call(
+            "banking.payment.initiate",
+            paymentData
+        );
+    } else {
+        console.error("JBright is NOT available!");
+        showLoading(false);
+        alert("Payment system not ready. Please try again.");
+    }
 
-    // Hide loading after 1 second (gives time for deeplink to open)
+    // Hide loading after 1.5 seconds (gives time for deeplink to open)
     paymentTimeout = setTimeout(() => {
         showLoading(false);
-    }, 1000);
+    }, 1500);
 }
 
 
 // Native callback from banking app
 window.onPaymentResult = function(res) {
 
-    console.log("Native Callback:", res);
+    console.log("=== Native Callback Received ===", res);
 
     clearTimeout(paymentTimeout);
 
@@ -64,8 +71,7 @@ window.onPaymentResult = function(res) {
 
     }
 
-    window.location.href =
-        "success.html";
+    window.location.href = "success.html";
 
 };
 
@@ -79,9 +85,8 @@ function requestCamera() {
         {},
         function(res) {
 
-            alert(
-                "📷 Camera Permission Granted"
-            );
+            console.log("Camera permission result:", res);
+            alert("📷 Camera Permission Granted");
 
         }
     );
@@ -95,9 +100,8 @@ function requestContacts() {
         {},
         function(res) {
 
-            alert(
-                "👤 Contacts Permission Granted"
-            );
+            console.log("Contacts permission result:", res);
+            alert("👤 Contacts Permission Granted");
 
         }
     );
@@ -111,9 +115,8 @@ function requestLocation() {
         {},
         function(res) {
 
-            alert(
-                "📍 Location Permission Granted"
-            );
+            console.log("Location permission result:", res);
+            alert("📍 Location Permission Granted");
 
         }
     );
@@ -127,9 +130,8 @@ function requestPhotos() {
         {},
         function(res) {
 
-            alert(
-                "🖼️ Photo Permission Granted"
-            );
+            console.log("Photos permission result:", res);
+            alert("🖼️ Photo Permission Granted");
 
         }
     );
@@ -141,15 +143,13 @@ function requestPhotos() {
 
 function openPermissionPage() {
 
-    window.location.href =
-        "permission.html";
+    window.location.href = "permission.html";
 
 }
 
 function goHome() {
 
-    window.location.href =
-        "index.html";
+    window.location.href = "index.html";
 
 }
 
@@ -158,14 +158,10 @@ function goHome() {
 
 function showLoading(show) {
 
-    const loading =
-        document.getElementById(
-            "loading"
-        );
+    const loading = document.getElementById("loading");
 
     if (!loading) return;
 
-    loading.style.display =
-        show ? "flex" : "none";
+    loading.style.display = show ? "flex" : "none";
 
 }

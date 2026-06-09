@@ -1,11 +1,13 @@
 window.JBright = {
     call: function(action, data, callback) {
         console.log("JBright action:", action);
+        console.log("JBright data:", data);
 
         // iOS WebView Handler
         if (window.webkit &&
             window.webkit.messageHandlers &&
             window.webkit.messageHandlers.jbright) {
+            console.log("Using iOS WebView handler");
             window.webkit.messageHandlers.jbright.postMessage({
                 action: action,
                 data: data || {}
@@ -19,6 +21,7 @@ window.JBright = {
 
         // Android WebView Handler
         if (window.jbright && typeof window.jbright.call === 'function') {
+            console.log("Using Android WebView handler");
             window.jbright.call(
                 action,
                 JSON.stringify(data || {}),
@@ -27,36 +30,44 @@ window.JBright = {
             return;
         }
 
-        // Payment Deeplink Handler
-        if (action === "banking.payment.initiate" && data && data.paymentlink) {
-            window.location.href = data.paymentlink;
+        // Payment Deeplink Handler - MUST BE CALLED FIRST
+        if (action === "banking.payment.initiate") {
+            if (data && data.paymentlink) {
+                console.log("Redirecting to payment deeplink:", data.paymentlink);
+                // Small delay to ensure logs are written before redirect
+                setTimeout(() => {
+                    window.location.href = data.paymentlink;
+                }, 100);
+                return;
+            }
+        }
+
+        // Permission Handlers - Simulate native response
+        if (action.startsWith("permission.")) {
+            console.log("Permission request:", action);
+            setTimeout(() => {
+                if (callback) {
+                    callback({ 
+                        success: true, 
+                        granted: true,
+                        permission: action
+                    });
+                }
+            }, 500);
             return;
         }
 
-        // Fallback: Simulate permission grants
+        // Fallback
+        console.log("Using fallback handler for:", action);
         setTimeout(() => {
             if (callback) callback({ success: true, granted: true });
         }, 500);
-    },
-
-    // Build payment deeplink
-    buildPaymentDeeplink: function(paymentData) {
-        const params = new URLSearchParams({
-            merchantId: paymentData.merchantId || "",
-            merchantName: paymentData.merchantName || "",
-            amount: paymentData.amount || "0",
-            currency: paymentData.currency || "USD",
-            orderId: paymentData.orderId || "",
-            description: paymentData.description || "",
-            callbackUrl: window.location.href
-        });
-
-        return `banking://payment?${params.toString()}`;
     }
 };
 
 // Native callback handler for webview responses
 window.onNativeResult = function(action, result) {
+    console.log("Native result received:", action, result);
     const callbacks = window._jbrightCallbacks || {};
     if (callbacks[action]) {
         callbacks[action](result);

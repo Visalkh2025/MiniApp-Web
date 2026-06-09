@@ -1,15 +1,10 @@
-// ========================================
-// JBRIGHT NATIVE BRIDGE
-// ========================================
 window.JBright = {
     call: function(action, data, callback) {
         console.log("JBright action:", action)
 
-        // iOS WKWebView
         if (window.webkit &&
             window.webkit.messageHandlers &&
             window.webkit.messageHandlers.jbright) {
-            console.log("Sending to Swift:", action)
             window.webkit.messageHandlers.jbright.postMessage({
                 action: action,
                 data: data || {}
@@ -21,26 +16,18 @@ window.JBright = {
             return
         }
 
-        // Browser — payment redirect
         if (action === "banking.payment.initiate" && data && data.paymentlink) {
             window.location.href = data.paymentlink
             return
         }
 
-        // Browser — permission mock
         setTimeout(() => {
             if (callback) callback({ success: true, granted: true })
         }, 500)
-
-        console.warn("JBright: webkit not found")
     }
 }
 
-// ========================================
-// NATIVE CALLBACK
-// ========================================
 window.onNativeResult = function(action, result) {
-    console.log("Native result:", action, result)
     const callbacks = window._jbrightCallbacks || {}
     if (callbacks[action]) {
         callbacks[action](result)

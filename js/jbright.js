@@ -1,17 +1,25 @@
 window.JBright = {
     call: function(action, data, callback) {
-        console.log("JBright action:", action);
-        console.log("JBright data:", data);
+        console.log("=== JBright.call ===");
+        console.log("action:", action);
+        console.log("data:", data);
 
-        // iOS WebView Handler
+        // PRIMARY: Send to iOS Native Bridge
         if (window.webkit &&
             window.webkit.messageHandlers &&
             window.webkit.messageHandlers.jbright) {
-            console.log("Using iOS WebView handler");
-            window.webkit.messageHandlers.jbright.postMessage({
+            
+            console.log("✅ Sending to iOS Native Bridge");
+            
+            const message = {
                 action: action,
                 data: data || {}
-            });
+            };
+            
+            console.log("Message to native:", JSON.stringify(message));
+            window.webkit.messageHandlers.jbright.postMessage(message);
+            
+            // Store callback for later
             if (callback) {
                 window._jbrightCallbacks = window._jbrightCallbacks || {};
                 window._jbrightCallbacks[action] = callback;
@@ -19,9 +27,9 @@ window.JBright = {
             return;
         }
 
-        // Android WebView Handler
+        // FALLBACK: Android WebView Handler
         if (window.jbright && typeof window.jbright.call === 'function') {
-            console.log("Using Android WebView handler");
+            console.log("✅ Sending to Android Native Bridge");
             window.jbright.call(
                 action,
                 JSON.stringify(data || {}),
@@ -30,48 +38,42 @@ window.JBright = {
             return;
         }
 
-        // Payment Deeplink Handler - MUST BE CALLED FIRST
-        if (action === "banking.payment.initiate") {
-            if (data && data.paymentlink) {
-                console.log("Redirecting to payment deeplink:", data.paymentlink);
-                // Small delay to ensure logs are written before redirect
-                setTimeout(() => {
-                    window.location.href = data.paymentlink;
-                }, 100);
-                return;
-            }
-        }
-
-        // Permission Handlers - Simulate native response
-        if (action.startsWith("permission.")) {
-            console.log("Permission request:", action);
+        // FALLBACK: Direct Deeplink (for web testing only)
+        if (action === "banking.payment.initiate" && data && data.paymentlink) {
+            console.log("⚠️ Using Fallback Deeplink (Native Bridge not available)");
             setTimeout(() => {
-                if (callback) {
-                    callback({ 
-                        success: true, 
-                        granted: true,
-                        permission: action
-                    });
-                }
-            }, 500);
+                window.location.href = data.paymentlink;
+            }, 100);
             return;
         }
 
-        // Fallback
-        console.log("Using fallback handler for:", action);
+        // FALLBACK: Permission Simulation
+        console.log("⚠️ Native Bridge not available - using fallback");
         setTimeout(() => {
-            if (callback) callback({ success: true, granted: true });
+            if (callback) {
+                callback({ 
+                    success: true, 
+                    granted: true,
+                    permission: action
+                });
+            }
         }, 500);
     }
 };
 
-// Native callback handler for webview responses
+// Native callback handler - iOS calls this from Swift
 window.onNativeResult = function(action, result) {
-    console.log("Native result received:", action, result);
+    console.log("=== Native Result Received ===");
+    console.log("action:", action);
+    console.log("result:", result);
+    
     const callbacks = window._jbrightCallbacks || {};
     if (callbacks[action]) {
+        console.log("✅ Executing callback for:", action);
         callbacks[action](result);
         delete callbacks[action];
+    } else {
+        console.log("⚠️ No callback registered for:", action);
     }
 };
 
@@ -79,7 +81,6 @@ window.onNativeResult = function(action, result) {
 // NATIVE APP CALLBACK EXAMPLES (for testing)
 // ========================================
 
-// Native payment success
 function nativePaymentSuccess() {
     window.onPaymentResult({
         success: true,
@@ -90,7 +91,6 @@ function nativePaymentSuccess() {
     });
 }
 
-// Native payment failed
 function nativePaymentFailed() {
     window.onPaymentResult({
         success: false,

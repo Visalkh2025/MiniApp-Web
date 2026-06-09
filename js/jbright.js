@@ -34,24 +34,3 @@ window.onNativeResult = function(action, result) {
         delete callbacks[action]
     }
 }
-
-// ========================================
-// NATIVE APP CALLBACK EXAMPLES (for testing)
-// ========================================
-
-function nativePaymentSuccess() {
-    window.onPaymentResult({
-        success: true,
-        transactionId: "TXN999888",
-        amount: 5.50,
-        currency: "USD",
-        message: "Payment Successful"
-    });
-}
-
-function nativePaymentFailed() {
-    window.onPaymentResult({
-        success: false,
-        message: "Insufficient Balance"
-    });
-}
